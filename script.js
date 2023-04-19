@@ -22,7 +22,7 @@ cells.forEach((cell) => {
         message.innerText = "It's a tie!";
       } else {
         currentPlayer = currentPlayer === "X" ? "O" : "X";
-        message.innerText = `${currentPlayer}'s turn`;
+        // message.innerText = `${currentPlayer}'s turn`;
       }
     }
   });
@@ -41,7 +41,7 @@ resetButton.addEventListener("click", () => {
     cell.classList.remove("X", "O");
   });
 
-  message.innerText = `${currentPlayer}'s turn`;
+  // message.innerText = `${currentPlayer}'s turn`;
 });
 
 // check for win
@@ -53,6 +53,7 @@ function checkWin(player) {
       board[i + 1] === player &&
       board[i + 2] === player
     ) {
+      updateScore(player === 'X' ? 'user' : 'computer');
       return true;
     }
   }
@@ -64,15 +65,18 @@ function checkWin(player) {
       board[i + 3] === player &&
       board[i + 6] === player
     ) {
+      updateScore(player === 'X' ? 'user' : 'computer');
       return true;
     }
   }
 
   // check diagonals
   if (board[0] === player && board[4] === player && board[8] === player) {
+    updateScore(player === 'X' ? 'user' : 'computer');
     return true;
   }
   if (board[2] === player && board[4] === player && board[6] === player) {
+    updateScore(player === 'X' ? 'user' : 'computer');
     return true;
   }
 
@@ -83,3 +87,38 @@ function checkWin(player) {
 function checkTie() {
   return !board.includes("");
 }
+
+ // Initialize scores
+ let userScore = 0;
+ let computerScore = 0;
+ const userScoreElem = document.querySelector('.userScore');
+ const computerScoreElem = document.querySelector('.computerScore');
+
+ // Update score function
+ const updateScore = (winner) => {
+     if (winner === 'user') {
+         userScore++;
+     } else if (winner === 'computer') {
+         computerScore++;
+     }
+     userScoreElem.innerHTML = userScore;
+     computerScoreElem.innerHTML = computerScore;
+
+ }
+
+ // Add event listener for reset button
+ resetButton.addEventListener('click', () => {
+
+     board.fill("");
+     currentPlayer = "X";
+     gameover = false;
+
+     cells.forEach((cell) => {
+      cell.innerText = "";
+      cell.classList.remove("X", "O");
+
+      message.innerText = ``;
+
+     })
+  }
+ );
