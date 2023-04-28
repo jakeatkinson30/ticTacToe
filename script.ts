@@ -1,15 +1,14 @@
-const board = ["", "", "", "", "", "", "", "", ""];
-let currentPlayer = "X";
-let gameover = false;
+const board: string[] = ["", "", "", "", "", "", "", "", ""];
+let currentPlayer: string = "X";
+let gameover: boolean = false;
 
-const cells = document.querySelectorAll(".cell");
-const message = document.querySelector(".message");
-
+const cells = document.querySelectorAll(".cell") as NodeListOf<HTMLDivElement>;
+const message = document.querySelector(".message") as HTMLDivElement;
 
 // Add event listener to each cell
 cells.forEach((cell) => {
   cell.addEventListener("click", () => {
-    const index = cell.dataset.index;
+    const index = Number(cell.dataset.index);
     if (board[index] === "" && !gameover) {
       board[index] = currentPlayer;
       cell.innerText = currentPlayer;
@@ -29,7 +28,7 @@ cells.forEach((cell) => {
 });
 
 // Reset button
-const resetButton = document.querySelector(".reset");
+const resetButton = document.querySelector(".reset") as HTMLButtonElement;
 
 resetButton.addEventListener("click", () => {
   board.fill("");
@@ -45,7 +44,7 @@ resetButton.addEventListener("click", () => {
 });
 
 // check for win
-function checkWin(player) {
+function checkWin(player: string): boolean {
   // check rows
   for (let i = 0; i < 9; i += 3) {
     if (
@@ -53,7 +52,7 @@ function checkWin(player) {
       board[i + 1] === player &&
       board[i + 2] === player
     ) {
-      updateScore(player === 'X' ? 'user' : 'computer');
+      updateScore(player === "X" ? "user" : "computer");
       return true;
     }
   }
@@ -65,18 +64,18 @@ function checkWin(player) {
       board[i + 3] === player &&
       board[i + 6] === player
     ) {
-      updateScore(player === 'X' ? 'user' : 'computer');
+      updateScore(player === "X" ? "user" : "computer");
       return true;
     }
   }
 
   // check diagonals
   if (board[0] === player && board[4] === player && board[8] === player) {
-    updateScore(player === 'X' ? 'user' : 'computer');
+    updateScore(player === "X" ? "user" : "computer");
     return true;
   }
   if (board[2] === player && board[4] === player && board[6] === player) {
-    updateScore(player === 'X' ? 'user' : 'computer');
+    updateScore(player === "X" ? "user" : "computer");
     return true;
   }
 
@@ -84,41 +83,39 @@ function checkWin(player) {
 }
 
 // check for tie
-function checkTie() {
+function checkTie(): boolean {
   return !board.includes("");
 }
 
- // Initialize scores
- let userScore = 0;
- let computerScore = 0;
- const userScoreElem = document.querySelector('.userScore');
- const computerScoreElem = document.querySelector('.computerScore');
+// Initialize scores
+let userScore: number = 0;
+let computerScore: number = 0;
+const userScoreElem = document.querySelector(".userScore") as HTMLDivElement;
+const computerScoreElem = document.querySelector(
+  ".computerScore"
+) as HTMLDivElement;
 
- // Update score function
- const updateScore = (winner) => {
-     if (winner === 'user') {
-         userScore++;
-     } else if (winner === 'computer') {
-         computerScore++;
-     }
-     userScoreElem.innerHTML = userScore;
-     computerScoreElem.innerHTML = computerScore;
-
- }
-
- // Add event listener for reset button
- resetButton.addEventListener('click', () => {
-
-     board.fill("");
-     currentPlayer = "X";
-     gameover = false;
-
-     cells.forEach((cell) => {
-      cell.innerText = "";
-      cell.classList.remove("X", "O");
-
-      message.innerText = ``;
-
-     })
+// Update score function
+const updateScore = (winner: string): void => {
+  if (winner === "user") {
+    userScore++;
+  } else if (winner === "computer") {
+    computerScore++;
   }
- );
+  userScoreElem.innerHTML = String(userScore);
+  computerScoreElem.innerHTML = String(computerScore);
+};
+
+// Add event listener for reset button
+resetButton.addEventListener("click", () => {
+  board.fill("");
+  currentPlayer = "X";
+  gameover = false;
+
+  cells.forEach((cell) => {
+    cell.innerText = "";
+    cell.classList.remove("X", "O");
+
+    message.innerText = ``;
+  });
+});
