@@ -1,4 +1,4 @@
-## This is a simple Tic Tac Toe game, built using HTML, CSS and Javascript.
+## This is a simple Tic Tac Toe game, built using HTML, CSS and Typescript.
 
 ### Features
 
@@ -10,4 +10,4 @@
 
     - HTML
     - CSS
-    - JavaScript
+    - Typescript
